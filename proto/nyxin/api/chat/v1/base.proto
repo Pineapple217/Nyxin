@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package nyxin.api.chat.v1;
+
+service ChatService {
+    rpc SendMessage(SendMessageRequest) returns (SendMessageResponse);
+
+    rpc ReceiveMessages(ReceiveMessagesRequest) returns (stream ReceiveMessagesResponse);
+
+    rpc TypingStatus(stream TypingStatusRequest) returns (stream TypingStatusResponse);
+}
+
+message SendMessageRequest {
+    string sender_id = 1;
+    string receiver_id = 2;
+    bytes encrypted_message = 3;
+    int64 timestamp = 4;
+}
+
+message SendMessageResponse {
+    bool success = 1;
+}
+
+message ReceiveMessagesRequest {
+    string receiver_id = 1;
+}
+
+message ReceiveMessagesResponse {
+    string sender_id = 1;
+    string receiver_id = 2;
+    bytes encrypted_message = 3;
+    int64 timestamp = 4;
+}
+
+message TypingStatusRequest {
+    string sender_id = 1;
+    string receiver_id = 2;
+    bool is_typing = 3;
+}
+
+message TypingStatusResponse {
+    string sender_id = 1;
+    bool is_typing = 2;
+}
